@@ -19,7 +19,7 @@ type Session struct {
 }
 
 // GetAuthURL will return the URL set by calling the `BeginAuth` function on
-// the Discord provider.
+// the Reddit provider.
 func (s Session) GetAuthURL() (string, error) {
 	if s.AuthURL == "" {
 		return "", errors.New(goth.NoAuthUrlErrorMessage)
@@ -27,7 +27,7 @@ func (s Session) GetAuthURL() (string, error) {
 	return s.AuthURL, nil
 }
 
-// Authorize completes the authorization with Discord and returns the access
+// Authorize completes the authorization with Reddit and returns the access
 // token to be stored for future use.
 func (s *Session) Authorize(provider goth.Provider, params goth.Params) (string, error) {
 	p := provider.(*Provider)

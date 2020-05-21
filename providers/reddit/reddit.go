@@ -16,9 +16,9 @@ import (
 )
 
 const (
-	authURL      string = "https://www.reddit.com/api/v1/authorize"
-	tokenURL     string = "https://www.reddit.com/api/v1/access_token"
-	userEndpoint string = "https://www.reddit.com/api/v1/me"
+	authURL      string = "https://api.reddit.com/api/v1/authorize"
+	tokenURL     string = "https://api.reddit.com/api/v1/access_token"
+	userEndpoint string = "https://api.reddit.com/api/v1/me"
 )
 
 const (
@@ -150,7 +150,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return user, fmt.Errorf("%s responded with a %d trying to fetch user information", p.providerName, resp.StatusCode, p.UserAgent)
+		return user, fmt.Errorf("%s responded with a %d trying to fetch user information", p.providerName, resp.StatusCode)
 	}
 
 	bits, err := ioutil.ReadAll(resp.Body)
