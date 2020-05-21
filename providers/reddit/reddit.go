@@ -16,9 +16,9 @@ import (
 )
 
 const (
-	authURL      string = "https://api.reddit.com/api/v1/authorize"
-	tokenURL     string = "https://api.reddit.com/api/v1/access_token"
-	userEndpoint string = "https://api.reddit.com/api/v1/me"
+	authURL      string = "https://www.reddit.com/api/v1/authorize"
+	tokenURL     string = "https://www.reddit.com/api/v1/access_token"
+	userEndpoint string = "https://www.reddit.com/api/v1/me"
 )
 
 const (
@@ -139,7 +139,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	req.Header.Set("User-Agent", p.UserAgent)
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Authorization", "Bearer "+s.AccessToken)
-
+	fmt.Errorf(req.Header)
 	resp, err := p.Client().Do(req)
 	if err != nil {
 		if resp != nil {
