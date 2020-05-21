@@ -4,6 +4,7 @@ package reddit
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"io"
 	"io/ioutil"
@@ -86,6 +87,27 @@ type Provider struct {
 	providerName string
 }
 
+// Client gets the client with proper userAgent
+func (p *Provider) Client(code string) *http.Client {
+	if p.HTTPClient != nil {
+		return p.HTTPClient
+	}
+
+	client := &http.Client{
+		Transport: &oauth2.Transport{
+			Source: p.config.TokenSource(oauth2.NoContext, &oauth2.Token{
+				AccessToken: code,
+			}),
+			Base: &uaSetterTransport{
+				config:    p.config,
+				userAgent: p.UserAgent,
+			},
+		},
+	}
+
+	return client
+}
+
 // Name gets the name used to retrieve this provider.
 func (p *Provider) Name() string {
 	return p.providerName
@@ -96,8 +118,22 @@ func (p *Provider) SetName(name string) {
 	p.providerName = name
 }
 
-func (p *Provider) Client() *http.Client {
-	return goth.HTTPClientWithFallBack(p.HTTPClient)
+func basicAuth(username, password string) string {
+	auth := username + ":" + password
+	return "Basic " + base64.StdEncoding.EncodeToString([]byte(auth))
+}
+
+func (t *uaSetterTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	req.Header.Set("User-Agent", t.userAgent)
+	// set a non-standard Authorization header because reddit demands it
+	// https://github.com/reddit/reddit/wiki/OAuth2#retrieving-the-access-token
+	req.Header.Set("Authorization", basicAuth(t.config.ClientID, t.config.ClientSecret))
+	return http.DefaultTransport.RoundTrip(req)
+}
+
+type uaSetterTransport struct {
+	config    *oauth2.Config
+	userAgent string
 }
 
 // Debug is no-op for the Reddit package.
@@ -106,11 +142,14 @@ func (p *Provider) Debug(debug bool) {}
 // BeginAuth asks Reddit for an authentication end-point.
 func (p *Provider) BeginAuth(state string) (goth.Session, error) {
 
-	url := p.config.AuthCodeURL(state, oauth2.AccessTypeOnline)
+	url := p.config.AuthCodeURL(state) + "&duration=permanent"
 
 	s := &Session{
 		AuthURL: url,
 	}
+
+	p.Client(s.AccessToken)
+
 	return s, nil
 }
 
@@ -136,11 +175,10 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 		return user, err
 	}
 
-	req.Header.Set("User-Agent", p.UserAgent)
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Authorization", "Bearer "+s.AccessToken)
-	fmt.Errorf(req.Header)
-	resp, err := p.Client().Do(req)
+
+	resp, err := p.Client(s.AccessToken).Do(req)
 	if err != nil {
 		if resp != nil {
 			resp.Body.Close()

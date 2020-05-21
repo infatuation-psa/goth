@@ -11,6 +11,7 @@ import (
 	"log"
 
 	"github.com/gorilla/pat"
+	"github.com/gorilla/sessions"
 	"github.com/infatuation-psa/goth"
 	"github.com/infatuation-psa/goth/gothic"
 	"github.com/infatuation-psa/goth/providers/amazon"
@@ -69,11 +70,31 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// store will hold all session data
+var store *sessions.FilesystemStore
+
 func main() {
 	// loads values from .env into the system
 	if err := godotenv.Load(); err != nil {
 		log.Print("No .env file found")
 	}
+
+	authKeyOne := []byte(os.Getenv("SECURE_KEY64"))
+	encryptionKeyOne := []byte(os.Getenv("SECURE_KEY32"))
+
+	store = sessions.NewFilesystemStore(
+		"sessions/",
+		authKeyOne,
+		encryptionKeyOne,
+	)
+
+	store.Options = &sessions.Options{
+		Path:     "/",
+		MaxAge:   60 * 10080,
+		HttpOnly: true,
+	}
+
+	gothic.Store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))
 
 	goth.UseProviders(
 		twitter.New(os.Getenv("TWITTER_KEY"), os.Getenv("TWITTER_SECRET"), "http://localhost:3000/auth/twitter/callback"),
@@ -124,7 +145,7 @@ func main() {
 		dailymotion.New(os.Getenv("DAILYMOTION_KEY"), os.Getenv("DAILYMOTION_SECRET"), "http://localhost:3000/auth/dailymotion/callback", "email"),
 		deezer.New(os.Getenv("DEEZER_KEY"), os.Getenv("DEEZER_SECRET"), "http://localhost:3000/auth/deezer/callback", "email"),
 		discord.New(os.Getenv("DISCORD_KEY"), os.Getenv("DISCORD_SECRET"), "http://localhost:3000/auth/discord/callback", discord.ScopeIdentify, discord.ScopeEmail),
-		reddit.New(os.Getenv("REDDIT_KEY"), os.Getenv("REDDIT_SECRET"), "http://localhost:3000/auth/reddit/callback", "linux:beatbattle:v1.1 (by /u/infatuationpsa)", reddit.ScopeIdentity),
+		reddit.New(os.Getenv("REDDIT_KEY"), os.Getenv("REDDIT_SECRET"), "http://localhost:3000/auth/reddit/callback", "linux:localhost:v1.1 (by /u/ratchet132)", reddit.ScopeIdentity),
 		meetup.New(os.Getenv("MEETUP_KEY"), os.Getenv("MEETUP_SECRET"), "http://localhost:3000/auth/meetup/callback"),
 
 		//Auth0 allocates domain per customer, a domain must be provided for auth0 to work
