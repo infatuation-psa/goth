@@ -1,4 +1,4 @@
-module github.com/markbates/goth
+module github.com/infatuation-psa/goth
 
 go 1.14
 
@@ -13,6 +13,7 @@ require (
 	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/lestrrat-go/jwx v0.9.0
 	github.com/markbates/going v1.0.0
+	github.com/markbates/goth v1.64.1
 	github.com/mrjones/oauth v0.0.0-20180629183705-f4e24b6d100c
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

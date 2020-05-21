@@ -1,11 +1,12 @@
 package yammer_test
 
 import (
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/yammer"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+
+	"github.com/infatuation-psa/goth"
+	"github.com/infatuation-psa/goth/providers/yammer"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_New(t *testing.T) {

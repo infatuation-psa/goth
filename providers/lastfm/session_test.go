@@ -3,7 +3,7 @@ package lastfm
 import (
 	"testing"
 
-	"github.com/markbates/goth"
+	"github.com/infatuation-psa/goth"
 	"github.com/stretchr/testify/assert"
 )
 

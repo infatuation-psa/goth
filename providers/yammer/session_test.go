@@ -1,10 +1,11 @@
 package yammer_test
 
 import (
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/yammer"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/infatuation-psa/goth"
+	"github.com/infatuation-psa/goth/providers/yammer"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_Implements_Session(t *testing.T) {

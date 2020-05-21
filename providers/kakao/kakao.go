@@ -11,7 +11,7 @@ import (
 
 	"fmt"
 
-	"github.com/markbates/goth"
+	"github.com/infatuation-psa/goth"
 	"golang.org/x/oauth2"
 )
 

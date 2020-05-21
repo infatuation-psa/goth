@@ -1,10 +1,11 @@
 package cloudfoundry_test
 
 import (
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/cloudfoundry"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/infatuation-psa/goth"
+	"github.com/infatuation-psa/goth/providers/cloudfoundry"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_Implements_Session(t *testing.T) {

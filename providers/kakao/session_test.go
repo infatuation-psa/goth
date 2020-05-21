@@ -3,8 +3,8 @@ package kakao_test
 import (
 	"testing"
 
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/line"
+	"github.com/infatuation-psa/goth"
+	"github.com/infatuation-psa/goth/providers/line"
 	"github.com/stretchr/testify/assert"
 )
 

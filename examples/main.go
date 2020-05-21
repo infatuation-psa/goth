@@ -29,7 +29,6 @@ import (
 	"github.com/infatuation-psa/goth/providers/facebook"
 	"github.com/infatuation-psa/goth/providers/fitbit"
 	"github.com/infatuation-psa/goth/providers/gitea"
-	"github.com/infatuation-psa/goth/providers/github"
 	"github.com/infatuation-psa/goth/providers/gitlab"
 	"github.com/infatuation-psa/goth/providers/google"
 	"github.com/infatuation-psa/goth/providers/gplus"
@@ -85,7 +84,6 @@ func main() {
 		fitbit.New(os.Getenv("FITBIT_KEY"), os.Getenv("FITBIT_SECRET"), "http://localhost:3000/auth/fitbit/callback"),
 		google.New(os.Getenv("GOOGLE_KEY"), os.Getenv("GOOGLE_SECRET"), "http://localhost:3000/auth/google/callback"),
 		gplus.New(os.Getenv("GPLUS_KEY"), os.Getenv("GPLUS_SECRET"), "http://localhost:3000/auth/gplus/callback"),
-		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"),
 		spotify.New(os.Getenv("SPOTIFY_KEY"), os.Getenv("SPOTIFY_SECRET"), "http://localhost:3000/auth/spotify/callback"),
 		linkedin.New(os.Getenv("LINKEDIN_KEY"), os.Getenv("LINKEDIN_SECRET"), "http://localhost:3000/auth/linkedin/callback"),
 		line.New(os.Getenv("LINE_KEY"), os.Getenv("LINE_SECRET"), "http://localhost:3000/auth/line/callback", "profile", "openid", "email"),
@@ -164,7 +162,6 @@ func main() {
 	m["facebook"] = "Facebook"
 	m["fitbit"] = "Fitbit"
 	m["gitea"] = "Gitea"
-	m["github"] = "Github"
 	m["gitlab"] = "Gitlab"
 	m["google"] = "Google"
 	m["gplus"] = "Google Plus"

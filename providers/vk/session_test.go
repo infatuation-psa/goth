@@ -3,8 +3,8 @@ package vk_test
 import (
 	"testing"
 
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/vk"
+	"github.com/infatuation-psa/goth"
+	"github.com/infatuation-psa/goth/providers/vk"
 	"github.com/stretchr/testify/assert"
 )
 
