@@ -140,8 +140,6 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Authorization", "Bearer "+s.AccessToken)
 
-	print(req.Header)
-
 	resp, err := p.Client().Do(req)
 	if err != nil {
 		if resp != nil {
@@ -152,7 +150,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return user, fmt.Errorf("%s responded with a %d trying to fetch user information", p.providerName, resp.StatusCode)
+		return user, fmt.Errorf("%s responded with a %d trying to fetch user information", p.providerName, resp.StatusCode, p.UserAgent)
 	}
 
 	bits, err := ioutil.ReadAll(resp.Body)
