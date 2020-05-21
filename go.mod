@@ -1,5 +1,7 @@
 module github.com/markbates/goth
 
+go 1.14
+
 require (
 	cloud.google.com/go v0.30.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
